@@ -7,8 +7,12 @@ const QuoteListItemView = (props) => {
     containerStyle={styles.quote}
     title={props.quote.text + ' ' + props.quote.time}
     titleStyle={styles.title}
-    hideChevron={true}
-    onLongPress={() => console.log('press')}
+    hideChevron={!props.showDeleteButton}
+    underlayColor={'#3D6DFF'}
+    onLongPress={props.onLongPress}
+    onPress={props.onPress}
+    rightIcon={{ name: 'delete', style: { marginRight: 10 }}}
+    onPressRightIcon={props.onPressRightIcon}
   />;
 }
 
@@ -22,7 +26,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: '#fff'
+    color: '#000'
   }
 });
 
