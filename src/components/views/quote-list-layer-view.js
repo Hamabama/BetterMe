@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: colors.CHARCOAL,
+        backgroundColor: colors.BACKGROUND,
         marginTop: 0
     }
 });
