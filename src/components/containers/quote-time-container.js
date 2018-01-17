@@ -1,5 +1,6 @@
 import React from 'react';
 import { ButtonGroup } from 'react-native-elements';
+import colors from '../../constants/colors';
 
 class QuoteTimeContainer extends React.Component {
     constructor(props) {
@@ -9,26 +10,39 @@ class QuoteTimeContainer extends React.Component {
             buttons: ['MORNING', 'DAY', 'NIGHT']
         };
 
-        this.getCurrentTime(this.state.selectedIndex);
-    }
-    updateIndex(selectedIndex) {
-        this.setState({ selectedIndex });
-        this.getCurrentTime(selectedIndex);
+        this.getSelectedTime(this.state.selectedIndex);
     }
 
-    getCurrentTime(selectedIndex) {
+    updateButtons(selectedIndex) {
+        this.updateIndex(selectedIndex);
+        this.getSelectedTime(selectedIndex);
+        this.updateTextColor(selectedIndex);
+    }
+
+    updateIndex(selectedIndex) {
+        this.setState({ selectedIndex });
+    }
+
+    updateTextColor(selectedIndex) {
+        if (this.state.buttons[selectedIndex] === 'NIGHT') this.selectedTextColor = '#fff';
+        else this.selectedTextColor = '#000';
+    }
+
+    getSelectedTime(selectedIndex) {
         const buttonName = this.state.buttons[selectedIndex];
         this.props.handleTimeChange(buttonName);
     }
     render() {
         const { selectedIndex } = this.state;
+        const selectedButtonColor = colors[this.state.buttons[selectedIndex]];
 
         return (
             <ButtonGroup
-                onPress={this.updateIndex.bind(this)}
+                onPress={this.updateButtons.bind(this)}
                 selectedIndex={selectedIndex}
                 buttons={this.state.buttons}
-                selectedButtonStyle={{ backgroundColor: '#0f0' }}
+                selectedButtonStyle={{ backgroundColor: selectedButtonColor }}
+                selectedTextStyle={{ color: this.selectedTextColor }}
                 containerStyle={{ height: 50, marginTop: 50 }}
             />
         );
