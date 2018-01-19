@@ -7,15 +7,13 @@ import Navigator from '../navigation/navigator';
 
 class RootContainer extends React.Component {
 
-    onAddPress() {
-        this.props.navigation.navigate('Add');
-    }
     render() {
         return (
             <View style={styles.container}>
                 <Header
                     centerComponent={{ text: 'BETTERME', style: styles.headerCenterComponent }}
                     outerContainerStyles={styles.headerOuterContainer}
+                    backgroundColor={colors.BACKGROUND}
                 />
                 <Navigator />
             </View>
