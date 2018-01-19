@@ -24,11 +24,6 @@ class QuoteFormContainer extends React.Component {
         this.props.navigation.navigate('Main');
     }
 
-    handleCancel() {
-        Keyboard.dismiss();
-        this.props.navigation.navigate('Main');
-    }
-
     handleInput(el) {
         this.input = el;
     }
@@ -40,7 +35,6 @@ class QuoteFormContainer extends React.Component {
     render() {
         return (<QuoteFormView
             handleSubmit={this.handleSubmit.bind(this)}
-            handleCancel={this.handleCancel.bind(this)}
             handleInput={text => this.setState({ textInput: text })}
             handleTimeChange={this.handleTimeChange.bind(this)}
             errorMessage={this.state.errorMessage}
