@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 import colors from '../../constants/colors';
 
@@ -43,10 +44,18 @@ class QuoteTimeContainer extends React.Component {
                 buttons={this.state.buttons}
                 selectedButtonStyle={{ backgroundColor: selectedButtonColor }}
                 selectedTextStyle={{ color: this.selectedTextColor }}
-                containerStyle={{ height: 50, marginTop: 50 }}
+                containerStyle={styles.buttonGroup}
             />
         );
     }
 }
+
+const styles = StyleSheet.create({
+    buttonGroup: {
+        height: 40,
+        marginTop: 20,
+        borderWidth: 0
+    }
+});
 
 export default QuoteTimeContainer;
