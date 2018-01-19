@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import colors from '../../constants/colors';
 import QuoteFormTextView from './quote-form-text-view';
 import QuoteButtonPanelView from './quote-button-panel-view';
 import QuoteTimeContainer from '../containers/quote-time-container';
@@ -10,9 +9,7 @@ const QuoteFormView = (props) => {
         <View style={styles.form}>
             <QuoteFormTextView handleInput={props.handleInput} errorMessage={props.errorMessage} />
             <QuoteTimeContainer handleTimeChange={props.handleTimeChange} />
-            <QuoteButtonPanelView
-                handleSubmit={props.handleSubmit}
-                handleCancel={props.handleCancel}
+            <QuoteButtonPanelView handleSubmit={props.handleSubmit}
             />
         </View>
     );
@@ -20,9 +17,7 @@ const QuoteFormView = (props) => {
 
 const styles = StyleSheet.create({
     form: {
-        height: 300,
-        marginTop: 100,
-        backgroundColor: colors.WHITE,
+        marginTop: 0,
         justifyContent: 'center'
     }
 });
