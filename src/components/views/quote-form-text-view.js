@@ -1,15 +1,32 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 import { FormInput, FormLabel, FormValidationMessage } from 'react-native-elements';
 
 const QuoteFormTextView = (props) => {
     return (
-        <View>
-            <FormLabel>{'Enter quote'}</FormLabel>
-            <FormInput onChangeText={props.handleInput} />
-            <FormValidationMessage>{props.errorMessage}</FormValidationMessage>
+        <View style={styles.container}>
+            <TextInput
+                style={styles.textInput}
+                placeholder='Add quote'
+                onChangeText={props.handleInput}
+                underlineColorAndroid={'#fff'}
+            />
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        height: 120,
+        padding: 10,
+        backgroundColor: '#fff',
+        margin: 10,
+        borderRadius: 3
+    },
+    textInput: {
+        height: 40,
+        fontSize: 20
+    }
+});
 
 export default QuoteFormTextView;
