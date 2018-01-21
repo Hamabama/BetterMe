@@ -17,17 +17,17 @@ describe('quote reducer', () => {
         expect(quote(stateBefore, action)).toEqual(stateAfter);
     });
 
-    it('should handle CHANGE_TIME with wrong id', () => {
+    it('should handle CHANGE_QUOTE_REMINDER_TIME with wrong id', () => {
         const stateBefore = { id: 0, text: 'woot', time: time.DAY };
-        const action = { type: 'CHANGE_TIME', id: 1, time: time.MORNING };
+        const action = { type: 'CHANGE_QUOTE_REMINDER_TIME', id: 1, time: time.MORNING };
         const stateAfter = { id: 0, text: 'woot', time: time.DAY };
 
         expect(quote(stateBefore, action)).toEqual(stateAfter);
     });
 
-    it('should handle CHANGE_TIME with correct id', () => {
+    it('should handle CHANGE_QUOTE_REMINDER_TIME with correct id', () => {
         const stateBefore = { id: 1, text: 'woot', time: time.DAY };
-        const action = { type: 'CHANGE_TIME', id: 1, time: time.MORNING };
+        const action = { type: 'CHANGE_QUOTE_REMINDER_TIME', id: 1, time: time.MORNING };
         const stateAfter = { id: 1, text: 'woot', time: time.MORNING };
 
         expect(quote(stateBefore, action)).toEqual(stateAfter);

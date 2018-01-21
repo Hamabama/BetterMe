@@ -13,7 +13,7 @@ const quote = (state = initialState, action) => {
                 text: action.text,
                 time: action.time
             }
-        case 'CHANGE_TIME':
+        case 'CHANGE_QUOTE_REMINDER_TIME':
             if (state.id !== action.id) return state;
             return {
                 ...state,
