@@ -5,21 +5,16 @@ import colors from '../../constants/colors';
 
 class QuoteListItemContainer extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            showDeleteButton: false,
-            backgroundColor: '#3D6DCC'
+            showDeleteButton: false
         }
 
-    }
-    componentDidMount() {
-        this.getBackgroundColor();
-    }
+        this.onLongPress = this.onLongPress.bind(this);
+        this.onPress = this.onPress.bind(this);
+        this.onPressRightIcon = this.onPressRightIcon.bind(this);
 
-    getBackgroundColor() {
-        const backgroundColor = colors[this.props.quote.time];
-        this.setState({ backgroundColor });
     }
 
     onLongPress() {
@@ -31,7 +26,7 @@ class QuoteListItemContainer extends React.Component {
             this.setState({ showDeleteButton: false });
             return;
         }
-        store.dispatch({ type: 'SET_CURRENT_QUOTE', id: this.props.quote.id });
+        this.props.navigation.navigate('Current', { id: this.props.quote.id });
     }
 
     onPressRightIcon() {
@@ -39,13 +34,15 @@ class QuoteListItemContainer extends React.Component {
     }
 
     render() {
+        const backgroundColor = colors[this.props.quote.time];
+
         return <QuoteListItemView
             quote={this.props.quote}
-            onLongPress={this.onLongPress.bind(this)}
-            onPress={this.onPress.bind(this)}
+            onLongPress={this.onLongPress}
+            onPress={this.onPress}
             showDeleteButton={this.state.showDeleteButton}
-            onPressRightIcon={this.onPressRightIcon.bind(this)}
-            backgroundColor={this.state.backgroundColor}
+            onPressRightIcon={this.onPressRightIcon}
+            backgroundColor={backgroundColor}
         />;
     }
 }
