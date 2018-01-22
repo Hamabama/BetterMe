@@ -11,7 +11,7 @@ class RootContainer extends React.Component {
         return (
             <View style={styles.container}>
                 <Header
-                    centerComponent={{ text: 'BETTERME', style: styles.headerCenterComponent }}
+                    centerComponent={{ text: 'BetterMe', style: styles.headerCenterComponent }}
                     outerContainerStyles={styles.headerOuterContainer}
                     backgroundColor={colors.BACKGROUND}
                 />
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     headerOuterContainer: {
-        marginTop: 24,
         borderBottomWidth: 0
     }
 });
