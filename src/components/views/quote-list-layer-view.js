@@ -7,12 +7,9 @@ import QuoteListContainer from '../containers/quote-list-container';
 
 
 class QuoteListLayerView extends React.Component {
-
-    componentDidMount() {
-        this.unsubscribe = store.subscribe(() => {
-            const state = store.getState();
-            this.props.navigation.navigate('Current', { id: state.currentQuoteId });
-        })
+    constructor(props) {
+        super(props);
+        this.onAddPress = this.onAddPress.bind(this);
     }
     onAddPress() {
         this.props.navigation.navigate('Add');
@@ -21,13 +18,13 @@ class QuoteListLayerView extends React.Component {
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <QuoteListContainer />
+                    <QuoteListContainer navigation={this.props.navigation} />
                 </ScrollView>
                 <View style={styles.footer} >
                     <Icon name='add'
                         size={26}
                         raised
-                        onPress={this.onAddPress.bind(this)}
+                        onPress={this.onAddPress}
                         containerStyle={styles.addIcon} />
                 </View>
             </View>
