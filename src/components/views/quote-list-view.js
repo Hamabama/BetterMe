@@ -7,7 +7,7 @@ const QuoteListView = (props) => {
 
     return (<List containerStyle={styles.container}>
         {props.quoteList.map(quote => {
-            return <QuoteListItemContainer key={quote.id} quote={quote} />
+            return <QuoteListItemContainer key={quote.id} quote={quote} navigation={props.navigation} />
         })}
     </List>);
 };
@@ -15,7 +15,8 @@ const QuoteListView = (props) => {
 const styles = StyleSheet.create({
     container: {
         marginTop: 2,
-        borderTopWidth: 0
+        borderTopWidth: 0,
+        marginBottom: 100
     },
 });
 
