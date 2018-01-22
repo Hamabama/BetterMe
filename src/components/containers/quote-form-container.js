@@ -12,6 +12,9 @@ class QuoteFormContainer extends React.Component {
             timeName: '',
             errorMessage: ''
         }
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTimeChange = this.handleTimeChange.bind(this);
     }
 
     handleSubmit() {
@@ -34,9 +37,9 @@ class QuoteFormContainer extends React.Component {
 
     render() {
         return (<QuoteFormView
-            handleSubmit={this.handleSubmit.bind(this)}
+            handleSubmit={this.handleSubmit}
             handleInput={text => this.setState({ textInput: text })}
-            handleTimeChange={this.handleTimeChange.bind(this)}
+            handleTimeChange={this.handleTimeChange}
             errorMessage={this.state.errorMessage}
         />);
     }
