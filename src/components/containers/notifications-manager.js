@@ -1,66 +1,111 @@
 import store from '../../reducers/store';
-import filter from '../helpers/filter';
+import filterHelper from '../helpers/filter';
 import timeHelper from '../helpers/time';
+import colors from '../../constants/colors';
 import notificationHelper from '../helpers/notification';
 
 
-class NotificationsManager {
-    constructor() {
-        this.state = {
-            currentList: null,
-            pickedQuote: null,
-            currentTimeName: null
-        }
+const getCurrentList = (timeName) => {
+
+    const state = store.getState();
+
+    const list = filterHelper.getCurrentList(state.quoteList, timeName);
+
+    return list;
+}
+
+const pickRandomQuote = (timeName) => {
+
+    const list = getCurrentList(timeName);
+
+    const randomIndex = getRandomIndex(list.length);
+
+    return list[randomIndex];
+}
+
+const getRandomIndex = (max) => {
+
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+const scheduleCurrentNotification = () => {
+
+    const state = store.getState();
+
+    if (state.quoteList.length === 0) return;
+
+    const currentTimeName = timeHelper.getCurrentTimeName();
+
+    const isScheduled = checkedCurrentTimeScheduled(state.reminders, currentTimeName);
+
+    const isReminderTimePassed = checkReminderTime(state.reminders, currentTimeName);
+
+    if (isScheduled)          console.warn('Scheduled ', state.reminders);
+
+    if (isReminderTimePassed) console.warn(currentTimeName + ' is passed', state.reminders);
+
+    if (isScheduled || isReminderTimePassed) return;
+
+    scheduleNotification(currentTimeName);
+}
+
+const getTimeToSchedule = (timeName) => {
+
+    const { reminders } = store.getState();
+
+    const time = reminders[timeName].time;
+
+    return timeHelper.getEpochTime(time);
+}
+
+const setupNotification = (timeName) => {
+
+    const quote = pickRandomQuote(timeName);
+
+    const timeToSchedule = getTimeToSchedule(timeName);
+
+    const color = getNotificationColor(timeName);
+
+    return {
+        quote,
+        timeToSchedule,
+        color
     }
+}
 
-    getCurrentList() {
-        const state = store.getState();
-        const list = filter.getCurrentList(state.quoteList);
-        //this.setState({ currentList: list });
-        return list;
-    }
+const getNotificationColor = (timeName) => {
 
-    pickRandomQuote() {
+    return colors[timeName];
+}
 
-        const list = this.getCurrentList();
-        //const length = this.state.currentList.length;
-        // const index = Math.floor(Math.random() * Math.floor(length));
-        const index = Math.floor(Math.random() * Math.floor(list.length));
-        //this.setState({ pickedQuote: this.state.currentList[index] });
+const scheduleNotification = (timeName) => {
 
-        return list[index];
-    }
+    const notification = setupNotification(timeName);
 
-    scheduleCurrentNotification() {
+    notificationHelper.sendNotification(notification);
 
-        const currentTimeName = timeHelper.getCurrentTimeName();
-
-        const state = store.getState();
-
-        // if (state.reminder[this.state.currentTimeName] === true) return;
-
-        //const text = this.state.pickedQuote.text;
-
-        const quote = this.pickRandomQuote();
-
-        // this.setState({ currentTimeName });
-
-        const timeToSchedule = state.reminders[currentTimeName];
-
-        const title = 'test';
-
-        const notification = notificationHelper.setupNotification(title, quote.text);
-
-        //const timeToScheduleDateFormat = notificationHelper.setupSchedulingOptions(timeToSchedule);
-
-        console.log(timeToSchedule.toString());
-
-        notificationHelper.scheduleNotifications(notification, timeToSchedule);
-
-        //store.dispatch({ type: 'UPDATE_REMINDER_STATUS', timeName: this.state.currentTimeName, status: true });
-    }
-
+    store.dispatch({ type: 'SET_REMINDER_SCHEDULED', timeName: timeName });
 
 }
 
-export default NotificationsManager;
+const checkedCurrentTimeScheduled = (reminders, currentTimeName) => {
+
+    return reminders[currentTimeName].scheduled;
+}
+
+const checkReminderTime = (reminders, currentTimeName) => {
+
+    const time = reminders[currentTimeName].time;
+
+    return timeHelper.getEpochTime(time) < new Date();
+}
+
+const cancelAllScheduledNotifications = () => {
+
+    notificationHelper.cancelAllScheduledNotifications();
+}
+
+export default {
+    scheduleCurrentNotification,
+    cancelAllScheduledNotifications
+};
