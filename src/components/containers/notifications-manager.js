@@ -30,19 +30,16 @@ const getRandomIndex = (max) => {
 
 const scheduleCurrentNotification = () => {
 
+    
     const state = store.getState();
-
+    
     if (state.quoteList.length === 0) return;
-
+    
     const currentTimeName = timeHelper.getCurrentTimeName();
 
     const isScheduled = checkedCurrentTimeScheduled(state.reminders, currentTimeName);
 
     const isReminderTimePassed = checkReminderTime(state.reminders, currentTimeName);
-
-    if (isScheduled)          console.warn('Scheduled ', state.reminders);
-
-    if (isReminderTimePassed) console.warn(currentTimeName + ' is passed', state.reminders);
 
     if (isScheduled || isReminderTimePassed) return;
 
@@ -67,8 +64,9 @@ const setupNotification = (timeName) => {
     const color = getNotificationColor(timeName);
 
     return {
-        quote,
-        timeToSchedule,
+        id: quote.id,
+        message: quote.text,
+        date: timeToSchedule,
         color
     }
 }
