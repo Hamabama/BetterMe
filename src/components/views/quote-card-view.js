@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import colors from '../../constants/colors';
 
 const QuoteCardView = (props) => {
+    
     return (
         <View style={styles.container}>
             <Text style={styles.text}>{props.text}</Text>
@@ -13,11 +14,14 @@ const QuoteCardView = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 10,
-        backgroundColor: colors.BACKGROUND
+        padding: 20,
+        backgroundColor: colors.BACKGROUND,
+        alignItems: 'center'
     },
     text: {
-        fontSize: 20
+        fontSize: 24,
+        color: colors.WHITE,
+        paddingTop: 50
     }
 });
 
