@@ -1,13 +1,40 @@
 import quote from './quote-reducer';
+import storageHelper from '../components/helpers/storage';
 
 const quoteList = (state = [], action) => {
+
+    let list = [];
+
     switch (action.type) {
+
+        case 'LOAD_STORED_LIST':
+
+            return action.list;
+
         case 'ADD_QUOTE':
-            return [...state, quote(undefined, action)];
+
+            list = [...state, quote(undefined, action)];
+
+            storageHelper.saveData(list, 'quoteList');
+
+            return list;
+
         case 'CHANGE_QUOTE_REMINDER_TIME':
-            return state.map(q => quote(q, action));
+
+            list = state.map(q => quote(q, action));
+
+            storageHelper.saveData(list, 'quoteList');
+
+            return list;
+
         case 'REMOVE_QUOTE':
-            return state.filter(q => q.id !== action.id);
+
+            list = state.filter(q => q.id !== action.id);
+
+            storageHelper.saveData(list, 'quoteList');
+
+            return list;
+
         default: return state;
     }
 }

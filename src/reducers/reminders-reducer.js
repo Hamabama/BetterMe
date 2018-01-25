@@ -1,64 +1,97 @@
 import timeHelper from '../components/helpers/time';
+import storageHelper from '../components/helpers/storage';
 
 const initialState = {
     MORNING: {
-        time: timeHelper.getEpochTime({ hours: 9, minutes: 0 }),
+        time: '9:00',
         scheduled: false
     },
     DAY: {
-        time: timeHelper.getEpochTime({ hours: 13, minutes: 0 }),
+        time: '13:00',
         scheduled: false
     },
     NIGHT: {
-        time: timeHelper.getEpochTime({ hours: 20, minutes: 0 }),
+        time: '20:00',
         scheduled: false
     }
 }
 
 const reminders = (state = initialState, action) => {
 
-    if (action.type === 'CHANGE_TIME') {
+    let newState = {};
+    let obj = {};
 
-        switch (action.timeName) {
-            case 'MORNING':
-                return { ...state, 'MORNING': updateTime(state['MORNING'], action.time) };
-            case 'DAY':
-                return { ...state, 'DAY': updateTime(state['DAY'], action.time) };
-            case 'NIGHT':
-                return { ...state, 'NIGHT': updateTime(state['NIGHT'], action.time) };
-            default: return state;
-        }
+    switch (action.type) {
 
+        case 'LOAD_STORED_REMINDERS':
+
+            return action.reminders;
+
+        case 'CHANGE_REMINDER_TIME':
+
+            obj[action.timeName] = updateTime(state[action.timeName], action.time);
+
+            newState = { ...state, ...obj };
+
+            storageHelper.saveData(newState, 'reminders');
+
+            return newState;
+
+        case 'SET_REMINDER_SCHEDULED':
+
+            newState = setTimeScheduled(state, action.timeName);
+
+            storageHelper.saveData(newState, 'reminders');
+
+            console.warn('Scheduled ', newState);
+
+            return newState;
+
+        case 'RESET_REMINDERS_STATUS':
+
+            newState = resetScheduled(state);
+
+            storageHelper.saveData(newState, 'reminders');
+
+            return newState;
+
+        default: return state;
     }
-
-    else if (action.type === 'UPDATE_REMINDER_STATUS') {
-
-        switch (action.timeName) {
-            case 'MORNING':
-                return { ...state, 'MORNING': updateStatus(state['MORNING'], action.status) };
-            case 'DAY':
-                return { ...state, 'DAY': updateStatus(state['DAY'], action.status) };
-            case 'NIGHT':
-                return { ...state, 'NIGHT': updateStatus(state['NIGHT'], action.status) };
-            default: return state;
-        }
-
-    }
-
-    else return state;
-
 }
 
 const updateTime = (object, time) => {
+
     return {
-        ...object, time: timeHelper.getEpochTime(time)
+        ...object, time: time
     }
 }
 
-const updateStatus = (object, status) => {
-    return {
-        ...object, scheduled: status
+const setTimeScheduled = (state, timeName) => {
+
+    const newState = {};
+
+    for (let key in state) {
+
+        if (key === timeName) newState[key] = { ...state[key], scheduled: true };
+
+        else newState[key] = { ...state[key], scheduled: false };
     }
+
+    return newState;
 }
+
+const resetScheduled = (state) => {
+
+    const newState = {};
+
+    for (let key in state) {
+
+        newState[key] = { ...state[key], scheduled: false };
+
+    }
+
+    return newState;
+}
+
 
 export default reminders;
