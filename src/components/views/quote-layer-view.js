@@ -4,6 +4,7 @@ import colors from '../../constants/colors';
 import QuoteFormContainer from '../containers/quote-form-container';
 
 const QuoteLayerView = (props) => {
+    
     return (
         <View style={styles.container}>
             <QuoteFormContainer navigation={props.navigation} />

@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
 const QuoteListItemView = (props) => {
+  
   return <ListItem
     containerStyle={[styles.quote, { backgroundColor: props.backgroundColor }]}
     title={props.quote.text}
@@ -11,7 +12,7 @@ const QuoteListItemView = (props) => {
     underlayColor={'#3D6DFF'}
     onLongPress={props.onLongPress}
     onPress={props.onPress}
-    rightIcon={{ name: 'delete', style: { marginRight: 10 } }}
+    rightIcon={{ name: 'delete', style: { marginRight: 10, borderColor: '#fff' } }}
     onPressRightIcon={props.onPressRightIcon}
   />;
 }

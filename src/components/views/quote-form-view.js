@@ -5,6 +5,7 @@ import QuoteButtonPanelView from './quote-button-panel-view';
 import QuoteTimeContainer from '../containers/quote-time-container';
 
 const QuoteFormView = (props) => {
+    
     return (
         <View style={styles.form}>
             <QuoteFormTextView handleInput={props.handleInput} errorMessage={props.errorMessage} />
