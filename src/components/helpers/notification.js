@@ -1,48 +1,41 @@
-import { Notifications } from 'expo';
+import PushNotification from 'react-native-push-notification';
 
-const setupNotification = (title = '', body = 'no text', link = '', color = '#f00') => {
+PushNotification.configure({
 
-    return {
-        title,
-        body,
-        android: {
-            color,
-            vibrate: [0, 100]
-        },
-        link
+    onNotification: function (notification) {
+
     }
-};
 
-const setupSchedulingOptions = (time) => {
+
+});
+
+const setupNotificationConfig = (id, message, date, color) => {
 
     return {
-        time
+        id,
+        color,
+        vibrate: true,
+        vibration: 300,
+        title: 'BetterMe',
+        message,
+        date
     }
 }
 
-const scheduleNotifications = (notification, schedulingOptions) => {
+const sendNotification = ({id, message, date, color}) => {
 
-    Notifications.scheduleLocalNotificationAsync(notification, schedulingOptions);
-}
+    const config = setupNotificationConfig(id, message, date, color);
 
-const presentLocalNotification = (notification) => {
-
-    Notifications.presentLocalNotificationAsync(notification);
+    PushNotification.localNotificationSchedule(config);
 
 }
 
 const cancelAllScheduledNotifications = () => {
-
-    Notifications.cancelAllScheduledNotificationsAsync();
-
+    
+    PushNotification.cancelAllLocalNotifications();
 }
 
-
 export default {
-
-    setupNotification,
-    setupSchedulingOptions,
-    scheduleNotifications,
-    presentLocalNotification,
+    sendNotification,
     cancelAllScheduledNotifications
 }
