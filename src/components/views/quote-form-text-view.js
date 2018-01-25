@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
-import { FormInput, FormLabel, FormValidationMessage } from 'react-native-elements';
 
 const QuoteFormTextView = (props) => {
+
     return (
         <View style={styles.container}>
             <TextInput
