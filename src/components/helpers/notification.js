@@ -22,7 +22,7 @@ const setupNotificationConfig = (id, message, date, color) => {
     }
 }
 
-const sendNotification = ({id, message, date, color}) => {
+const scheduleNotification = ({id, message, date, color}) => {
 
     const config = setupNotificationConfig(id, message, date, color);
 
@@ -31,11 +31,11 @@ const sendNotification = ({id, message, date, color}) => {
 }
 
 const cancelAllScheduledNotifications = () => {
-    
+
     PushNotification.cancelAllLocalNotifications();
 }
 
 export default {
-    sendNotification,
+    scheduleNotification,
     cancelAllScheduledNotifications
 }

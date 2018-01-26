@@ -30,20 +30,27 @@ const getRandomIndex = (max) => {
 
 const scheduleCurrentNotification = () => {
 
-    
-    const state = store.getState();
-    
-    if (state.quoteList.length === 0) return;
-    
     const currentTimeName = timeHelper.getCurrentTimeName();
+
+    if (allowedToSchedule(currentTimeName) === true) scheduleNotification(currentTimeName);
+}
+
+const allowedToSchedule = (currentTimeName) => {
+
+    const state = store.getState();
+
+    console.warn('allowedToSchedule', currentTimeName, state.reminders, (new Date()).toString());
+
+    if (state.quoteList.length === 0) return false;
 
     const isScheduled = checkedCurrentTimeScheduled(state.reminders, currentTimeName);
 
     const isReminderTimePassed = checkReminderTime(state.reminders, currentTimeName);
 
-    if (isScheduled || isReminderTimePassed) return;
+    if (isScheduled || isReminderTimePassed) return false;
 
-    scheduleNotification(currentTimeName);
+    return true;
+
 }
 
 const getTimeToSchedule = (timeName) => {
@@ -80,10 +87,15 @@ const scheduleNotification = (timeName) => {
 
     const notification = setupNotification(timeName);
 
-    notificationHelper.sendNotification(notification);
+    notificationHelper.scheduleNotification(notification);
+
+    setReminderScheduled(timeName);
+
+}
+
+const setReminderScheduled = (timeName) => {
 
     store.dispatch({ type: 'SET_REMINDER_SCHEDULED', timeName: timeName });
-
 }
 
 const checkedCurrentTimeScheduled = (reminders, currentTimeName) => {
@@ -105,5 +117,14 @@ const cancelAllScheduledNotifications = () => {
 
 export default {
     scheduleCurrentNotification,
-    cancelAllScheduledNotifications
+    cancelAllScheduledNotifications,
+    getCurrentList,
+    pickRandomQuote,
+    getRandomIndex,
+    allowedToSchedule,
+    getTimeToSchedule,
+    setupNotification,
+    getNotificationColor,
+    checkedCurrentTimeScheduled,
+    checkReminderTime
 };
